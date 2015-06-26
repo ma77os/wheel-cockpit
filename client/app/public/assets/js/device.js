@@ -27,18 +27,35 @@ Device.init();
 
 
 },{"./device/Wheel":2}],2:[function(require,module,exports){
-var Wheel;
+var Wheel,
+  bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
 Wheel = (function() {
   Wheel.prototype.rotation = 0;
 
+  Wheel.prototype.rotationDest = 0;
+
+  Wheel.prototype.deviceFactor = 1;
+
+  Wheel.prototype.deviceFactorAndroid = 0.08;
+
   function Wheel() {
+    this.onDeviceMotion = bind(this.onDeviceMotion, this);
     this.container = $("<div/>").addClass('wheel');
+    if (window.DeviceMotionEvent !== void 0) {
+      window.addEventListener("deviceorientation", this.onDeviceMotion);
+    }
     this.update();
   }
 
+  Wheel.prototype.onDeviceMotion = function(event) {
+    if (event.rotationRate !== null) {
+      return this.rotationDest = event.beta * this.deviceFactor;
+    }
+  };
+
   Wheel.prototype.update = function() {
-    this.rotation += 1;
+    this.rotation += (this.rotationDest - this.rotation) * 0.5;
     this.transformStr = "translate3d(-50%, -50%, 0)";
     this.transformStr += "rotateZ(" + this.rotation + "deg)";
     this.container.css('transform', this.transformStr);
