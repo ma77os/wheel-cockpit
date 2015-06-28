@@ -37,11 +37,17 @@ Wheel = (function() {
 
   Wheel.prototype.deviceFactor = 1;
 
+  Wheel.prototype.deviceFactorOffset = 1.5;
+
   Wheel.prototype.deviceFactorAndroid = 0.08;
 
   function Wheel() {
     this.onDeviceMotion = bind(this.onDeviceMotion, this);
-    this.container = $("<div/>").addClass('wheel');
+    this.container = $("<div/>").addClass('container');
+    this.imgCockpit = $('<img/>').addClass('cockpit').attr('src', 'assets/img/cockpit.jpg');
+    this.imgWheel = $('<img/>').addClass('wheel').attr('src', 'assets/img/wheel.png');
+    this.container.append(this.imgCockpit);
+    this.container.append(this.imgWheel);
     if (window.DeviceMotionEvent !== void 0) {
       window.addEventListener("deviceorientation", this.onDeviceMotion);
     }
@@ -50,15 +56,15 @@ Wheel = (function() {
 
   Wheel.prototype.onDeviceMotion = function(event) {
     if (event.rotationRate !== null) {
-      return this.rotationDest = event.beta * this.deviceFactor;
+      return this.rotationDest = (event.beta + this.deviceFactorOffset) * this.deviceFactor;
     }
   };
 
   Wheel.prototype.update = function() {
-    this.rotation += (this.rotationDest - this.rotation) * 0.5;
-    this.transformStr = "translate3d(-50%, -50%, 0)";
+    this.rotation = this.rotationDest;
+    this.transformStr = "translate3d(-50%, 0, 0)";
     this.transformStr += "rotateZ(" + this.rotation + "deg)";
-    this.container.css('transform', this.transformStr);
+    this.imgCockpit.css('transform', this.transformStr);
     return window.requestAnimationFrame(this.update.bind(this));
   };
 

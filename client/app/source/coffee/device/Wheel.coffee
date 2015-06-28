@@ -2,10 +2,15 @@ class Wheel
 	rotation: 0
 	rotationDest: 0
 	deviceFactor: 1
+	deviceFactorOffset: 1.5
 	# deviceFactor: 0.0009
 	deviceFactorAndroid: 0.08
 	constructor:->
-		@container = $("<div/>").addClass 'wheel'
+		@container = $("<div/>").addClass 'container'
+		@imgCockpit = $('<img/>').addClass('cockpit').attr 'src', 'assets/img/cockpit.jpg'
+		@imgWheel = $('<img/>').addClass('wheel').attr 'src', 'assets/img/wheel.png'
+		@container.append @imgCockpit
+		@container.append @imgWheel
 
 		if window.DeviceMotionEvent != undefined
 			window.addEventListener "deviceorientation", @onDeviceMotion
@@ -15,16 +20,18 @@ class Wheel
 
 	onDeviceMotion:(event)=>
 		if event.rotationRate != null
-			@rotationDest = event.beta * @deviceFactor
+			@rotationDest = (event.beta + @deviceFactorOffset) * @deviceFactor
 
 	update:->
+		# @rotation += (@rotationDest - @rotation ) * .9
+		@rotation = @rotationDest
 
-		@rotation += (@rotationDest - @rotation) * 0.5
-
-		@transformStr = "translate3d(-50%, -50%, 0)"
+		@transformStr = "translate3d(-50%, 0, 0)"
 		@transformStr += "rotateZ(#{@rotation}deg)"
 
-		@container.css 'transform', @transformStr
+
+
+		@imgCockpit.css 'transform', @transformStr
 
 
 		window.requestAnimationFrame @update.bind @

@@ -105,16 +105,45 @@ a {
 **
 **	>> VIEWS
 **___________________________________________________________________________________________*/
-#device-wrap .wheel {
+#device-wrap {
+  width: 100%;
+  height: 100%;
+  background: black;
+  overflow: hidden;
+}
+#device-wrap .container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  -webkit-transform: translate3d(0, -10%, 0);
+  -moz-transform: translate3d(0, -10%, 0);
+  -ms-transform: translate3d(0, -10%, 0);
+  -o-transform: translate3d(0, -10%, 0);
+  transform: translate3d(0, -10%, 0);
+}
+#device-wrap .container .cockpit {
   position: absolute;
-  width: 600px;
-  height: 400px;
-  top: 50%;
+  top: 7px;
   left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-  -moz-transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  -o-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-  background: red;
+  -webkit-transform: translate3d(-50%, 0, 0);
+  -moz-transform: translate3d(-50%, 0, 0);
+  -ms-transform: translate3d(-50%, 0, 0);
+  -o-transform: translate3d(-50%, 0, 0);
+  transform: translate3d(-50%, 0, 0);
+  -webkit-transform-origin: 50% 100%;
+  -moz-transform-origin: 50% 100%;
+  -ms-transform-origin: 50% 100%;
+  -o-transform-origin: 50% 100%;
+  transform-origin: 50% 100%;
+}
+#device-wrap .container .wheel {
+  position: absolute;
+  z-index: 1;
+  top: -95px;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  -moz-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  -o-transform: translateX(-50%);
+  transform: translateX(-50%);
 }
