@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Vivo Cupido 4G</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/easyrtc/easyrtc.js"></script>
+    <script src="/lib/mobile-detect.min.js"></script>
+    <script src="/utils/DeviceDetector.js"></script>
+    <script src="/rtc/RtcClient.js"></script>
+    <script src="App.js"></script>
+    <script>
+        // easyrtc.joinRoom("hj", null, function(roomName) {
+        //     console.log(roomName);
+        // }, function(errorCode, errorText, roomName) {
+        //     console.log(errorText);
+        // });
+
+        // easyrtc.connect('vivo-cupido-4g', function(myId) {
+        //     console.log("I am " + easyrtc.idToName(myId) + " a.k.a " + myId);
+
+        //     console.log(easyrtc.roomJoin)
+
+            // easyrtc.sendPeerMessage('dfd', 'hi', null, function(msgType, msgData) {
+            //     console.log(msgType);
+            //     console.log(msgData);
+            // }, function(errorCode, errorTxt) {
+            //     console.log(errorCode);
+            //     console.log(errorTxt);
+            // });
+
+            // easyrtc.getRoomsJoined(function(roomList) {
+            //     for (roomName in roomList) {
+            //         console.log("saw room " + roomName);
+            //     }
+            // }, function() {});
+        // }, function() {
+        //     console.log('what the fuck?!');
+        // });
+    </script>
+    <script>
+    /*function makeRequest() {
+        var request = gapi.client.urlshortener.url.insert({
+            'longUrl': 'http://vivocupido4g.clientes.ananke.com.br'
+        });
+
+        request.then(function(response) {
+        	// http://goo.gl/alO0MB -> http://vivocupido4g.clientes.ananke.com.br
+        	// http://goo.gl/ybuJZr -> http://vivocupido4g.clientes.ananke.com.br?q=1564856930
+            var link = document.getElementById('link');
+            link.href = response.result.id;
+            link.innerHTML = response.result.id;
+        }, function(reason) {
+            document.getElementById('link').remove();
+            console.log('Error: ' + reason.result.error.message);
+        });
+    }
+
+    function onGoogleClientLoad() {
+        gapi.client.setApiKey('AIzaSyCIRqj8NYjARJBMpKcEC9oD6TROUso03DU');
+        gapi.client.load('urlshortener', 'v1').then(makeRequest);
+    }*/
+    </script>
+</head>
+
+<body>
+    <!--h1>
+		This should be the desktop page !!!
+	</h1>
+    <a id="link" href="#" target="_blank"></a>
+    <script src="https://apis.google.com/js/client.js?onload=onGoogleClientLoad"></script-->
+</body>
+
+</html>
