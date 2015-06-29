@@ -10,7 +10,7 @@ class Main
 		window.servers = [
 			{
 				name: "A"
-				uri: "http://localhost:5000"
+				uri: "http://10.246.9.121:5000"
 			}
 		]
 

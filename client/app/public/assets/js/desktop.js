@@ -186,7 +186,7 @@ module.exports = Client;
 
 
 
-},{"../utils/Rtc.coffee":8}],3:[function(require,module,exports){
+},{"../utils/Rtc.coffee":9}],3:[function(require,module,exports){
 var Client, DesktopClient, Id,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -341,9 +341,11 @@ module.exports = DesktopClient;
 
 
 
-},{"../utils/Id.coffee":6,"./Client.coffee":2}],4:[function(require,module,exports){
-var CarView,
+},{"../utils/Id.coffee":7,"./Client.coffee":2}],4:[function(require,module,exports){
+var CarView, World,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+
+World = require('./simulation/World');
 
 CarView = (function() {
   function CarView() {
@@ -354,14 +356,11 @@ CarView = (function() {
 
   CarView.prototype.build = function() {
     this.container = $("<div/>").addClass('container');
-    this.boxInfo = $("<div/>").addClass('box-info');
-    this.descPage = $('<span/>').addClass('desc-text');
-    this.boxInfo.append(this.descPage);
-    return this.container.append(this.boxInfo);
+    return this.world = new World(this.container);
   };
 
   CarView.prototype.updateMove = function(event, val) {
-    return $('.desc-text').html("Rotation value: <br> " + val);
+    return this.world.updateCar(val);
   };
 
   return CarView;
@@ -372,7 +371,7 @@ module.exports = CarView;
 
 
 
-},{}],5:[function(require,module,exports){
+},{"./simulation/World":6}],5:[function(require,module,exports){
 var Pairing,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
@@ -404,6 +403,61 @@ module.exports = Pairing;
 
 
 },{}],6:[function(require,module,exports){
+var World;
+
+World = (function() {
+  World.prototype.targetPosition = new THREE.Vector3(0, 0, 0);
+
+  World.prototype.position = new THREE.Vector3(0, 0, 0);
+
+  function World(container) {
+    this.container = container;
+    this.buildScene();
+    this.buildRoad();
+    this.render();
+  }
+
+  World.prototype.buildScene = function() {
+    this.scene = new THREE.Scene();
+    this.camera = new THREE.PerspectiveCamera(75, $(window).width() / $(window).height(), 0.1, 1000);
+    this.camera.position.y = 1;
+    this.camera.position.z = 5;
+    this.renderer = new THREE.WebGLRenderer();
+    this.renderer.setSize($(window).width(), $(window).height());
+    return this.container.append(this.renderer.domElement);
+  };
+
+  World.prototype.buildRoad = function() {
+    var geom, material;
+    geom = new THREE.BoxGeometry(1, 1, 1);
+    material = new THREE.MeshBasicMaterial({
+      color: 0xffff00
+    });
+    this.cube = new THREE.Mesh(geom, material);
+    return this.scene.add(this.cube);
+  };
+
+  World.prototype.updateCar = function(rotation) {
+    return this.targetPosition.x = rotation * -0.1;
+  };
+
+  World.prototype.render = function() {
+    window.requestAnimationFrame(this.render.bind(this));
+    this.cube.rotation.y += 0.01;
+    this.position.x += (this.targetPosition.x - this.position.x) * 0.5;
+    this.camera.lookAt(this.position);
+    return this.renderer.render(this.scene, this.camera);
+  };
+
+  return World;
+
+})();
+
+module.exports = World;
+
+
+
+},{}],7:[function(require,module,exports){
 var Id;
 
 Id = (function() {
@@ -431,7 +485,7 @@ module.exports = Id;
 
 
 
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 var QueryString;
 
 QueryString = (function() {
@@ -461,7 +515,7 @@ module.exports = QueryString;
 
 
 
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 var QueryString, Rtc;
 
 QueryString = require('../utils/QueryString');
@@ -586,4 +640,4 @@ module.exports = Rtc;
 
 
 
-},{"../utils/QueryString":7}]},{},[1]);
+},{"../utils/QueryString":8}]},{},[1]);
