@@ -25,6 +25,7 @@ RtcServer = (function() {
     if (options == null) {
       options = null;
     }
+    socketServer.sockets.on("connection", function(socket) {});
     return easyrtc.listen(httpApp, socketServer, options, this.onStartUpComplete);
   };
 
@@ -43,11 +44,8 @@ RtcServer = (function() {
   };
 
   RtcServer.prototype.onConnection = function(socket, easyrtcid, next) {
-    var obj;
     this.connect(socket, easyrtcid, next);
-    console.log("------>>>>> " + easyrtcid + " has connected");
-    obj = JSON.stringify(this.appObj, null, 4);
-    return console.log("AppObj: " + obj);
+    return console.log("------>>>>> " + easyrtcid + " has connected");
   };
 
   RtcServer.prototype.onDisconnect = function(connectionObj, next) {
