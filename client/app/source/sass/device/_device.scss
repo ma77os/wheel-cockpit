@@ -26,6 +26,47 @@
 			left:50%;
 			@include transform(translateX(-50%));
 		}
+
+		.box-info{
+			width: 400px;
+			height: auto;
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			color: #fff;
+			text-align: center;
+			font-size: 2rem;
+			@include transform(translateX(-50%), translateY(-50%));
+
+			.desc-text{
+
+			}
+
+			.input-code{
+				margin: 20px auto 20px auto;
+				width: 50%;
+				height: 50px;
+				border: none;
+				font-size: 2rem;
+				text-align: center;
+				text-transform: uppercase;
+			}
+
+			.submit-bt{
+				width: 50%;
+				height: 50px;
+				background-color: #000;
+				text-align: center;
+				color: #fff;
+				line-height: 2.5rem;
+				border: 5px solid #fff;
+				margin: 0 auto;
+
+				&:active{
+					opacity: 0.8;
+				}
+			}
+		}
 	}
 
 }

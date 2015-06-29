@@ -13,6 +13,12 @@ Main = (function() {
   Main.createClient = function() {
     var deviceDetector, url;
     deviceDetector = new DeviceDetector(window.navigator.userAgent);
+    window.servers = [
+      {
+        name: "A",
+        uri: "http://localhost:5000"
+      }
+    ];
     window.isMobile = deviceDetector.isMobile();
     window.isTablet = deviceDetector.isTablet();
     window.isDevice = window.isMobile || window.isTablet;

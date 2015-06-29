@@ -7,6 +7,13 @@ class Main
 	@createClient: () ->
 		deviceDetector = new DeviceDetector(window.navigator.userAgent)
 
+		window.servers = [
+			{
+				name: "A"
+				uri: "http://localhost:5000"
+			}
+		]
+
 		window.isMobile = deviceDetector.isMobile()
 		window.isTablet = deviceDetector.isTablet()
 		window.isDevice = window.isMobile or window.isTablet
@@ -15,6 +22,7 @@ class Main
 
 		url = if window.isDevice then "assets/js/device.js" else "assets/js/desktop.js"
 		ScriptLoader.load url
+
 
 
 Main.createClient()

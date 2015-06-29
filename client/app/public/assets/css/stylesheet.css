@@ -105,6 +105,28 @@ a {
 **
 **	>> VIEWS
 **___________________________________________________________________________________________*/
+#desktop-wrap {
+  width: 100%;
+  height: 100%;
+  background: black;
+  overflow: hidden;
+}
+#desktop-wrap .box-info {
+  width: 400px;
+  height: auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  color: #fff;
+  text-align: center;
+  font-size: 2rem;
+  -webkit-transform: translateX(-50%);
+  -moz-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  -o-transform: translateX(-50%);
+  transform: translateX(-50%);
+}
+
 #device-wrap {
   width: 100%;
   height: 100%;
@@ -146,4 +168,41 @@ a {
   -ms-transform: translateX(-50%);
   -o-transform: translateX(-50%);
   transform: translateX(-50%);
+}
+#device-wrap .container .box-info {
+  width: 400px;
+  height: auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  color: #fff;
+  text-align: center;
+  font-size: 2rem;
+  -webkit-transform: translateX(-50%);
+  -moz-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  -o-transform: translateX(-50%);
+  transform: translateX(-50%);
+}
+#device-wrap .container .box-info .input-code {
+  margin: 20px auto 20px auto;
+  width: 50%;
+  height: 50px;
+  border: none;
+  font-size: 2rem;
+  text-align: center;
+  text-transform: uppercase;
+}
+#device-wrap .container .box-info .submit-bt {
+  width: 50%;
+  height: 50px;
+  background-color: #000;
+  text-align: center;
+  color: #fff;
+  line-height: 2.5rem;
+  border: 5px solid #fff;
+  margin: 0 auto;
+}
+#device-wrap .container .box-info .submit-bt:active {
+  opacity: 0.8;
 }

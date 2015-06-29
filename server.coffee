@@ -19,7 +19,7 @@ class Server
             httpApp.set 'port', (args[0] or port)
 
             # httpApp.use express.static "#{__dirname}/../", maxAge: 30000000
-            httpApp.use express.static "#{__dirname}/../html/app/public/"
+            httpApp.use express.static "#{__dirname}/client/app/public/"
 
             webServer = http
                 .createServer(httpApp)

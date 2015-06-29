@@ -1,8 +1,8 @@
 {
-  "name": "vivo_cupido-4g",
+  "name": "audi-panel",
   "version": "1.0.0",
   "author": "Wunderman",
-  "description": "Aplicativo Vivo Cupido 4G",
+  "description": "Protótipo Audi TT",
   "scripts": {
     "start": "node server.js",
     "test": "mocha test/*.js"

@@ -29,10 +29,9 @@ class Wheel
 		@transformStr = "translate3d(-50%, 0, 0)"
 		@transformStr += "rotateZ(#{@rotation}deg)"
 
-
-
 		@imgCockpit.css 'transform', @transformStr
 
+		$(window).trigger 'interact', [ @rotation ]
 
 		window.requestAnimationFrame @update.bind @
 

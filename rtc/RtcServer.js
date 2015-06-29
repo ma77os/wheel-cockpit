@@ -4,9 +4,9 @@ var RtcServer, easyrtc,
 easyrtc = require('easyrtc');
 
 RtcServer = (function() {
-  RtcServer.prototype.appName = 'vivo-cupido-4g';
+  RtcServer.prototype.appName = 'audi-panel';
 
-  RtcServer.prototype.defaultRoomName = 'vivo-cupido-4g';
+  RtcServer.prototype.defaultRoomName = 'audi-panel';
 
   RtcServer.prototype.appObj = null;
 

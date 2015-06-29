@@ -2,8 +2,8 @@ easyrtc = require 'easyrtc'
 
 class RtcServer
 
-    appName: 'vivo-cupido-4g'
-    defaultRoomName: 'vivo-cupido-4g'
+    appName: 'audi-panel'
+    defaultRoomName: 'audi-panel'
     appObj: null
 
     constructor: ->

@@ -11,10 +11,10 @@ class Rtc
 		if typeof @servers is "undefined" or @servers.length is 0
 			throw "Não existem Servidores configurados para a aplicação."
 
-		if window.config.servers? and window.config.servers.length > 0
+		if window.servers? and window.servers.length > 0
 			for i in [0...3]
-				if window.config.servers[i]? and window.config.servers[i] isnt ""
-					@servers[i].name = window.config.servers[i];
+				if window.servers[i]? and window.servers[i] isnt ""
+					@servers[i].name = window.servers[i];
 
 		return
 
@@ -26,16 +26,6 @@ class Rtc
 			easyrtc.setSocketUrl(@servers[@idServer].uri)
 
 		easyrtc.connect appName, successCallback, errorCallback
-
-		# if easyrtc.webSocket?
-		# 	if !window.isSecondScreen
-		# 		easyrtc.useThisSocketConnection(easyrtc.webSocket)
-		# 	else
-		# 		easyrtc.setSocketUrl(@servers[@idServer].uri)
-		# else
-		# 	easyrtc.setSocketUrl(@servers[@idServer].uri)
-
-		# easyrtc.connect appName, successCallback, errorCallback
 
 	setServer:(roomName)->
 		if window.isSecondScreen
