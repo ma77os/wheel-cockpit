@@ -16,8 +16,8 @@ class CarView
 		# @boxInfo.append @descPage
 		# @container.append @boxInfo
 
-	updateMove:(event, val)=>
-		@world.updateCar val
+	updateMove:(event, data)=>
+		@world.updateCar data
 		# $('.desc-text').html "Rotation value: <br> #{val}"
 
 module.exports = CarView

@@ -47,7 +47,7 @@ Desktop = (function() {
       return $(window).trigger("print-code", [Desktop.currentRoom]);
     });
     Desktop.client.subscribe(Desktop.client.messages.INTERACTION, function(messageType, data) {
-      return $(window).trigger("update-move", [data]);
+      return $(window).trigger("update-move", data);
     });
     return Desktop.client.connect();
   };
@@ -359,8 +359,8 @@ CarView = (function() {
     return this.world = new World(this.container);
   };
 
-  CarView.prototype.updateMove = function(event, val) {
-    return this.world.updateCar(val);
+  CarView.prototype.updateMove = function(event, data) {
+    return this.world.updateCar(data);
   };
 
   return CarView;
@@ -403,17 +403,31 @@ module.exports = Pairing;
 
 
 },{}],6:[function(require,module,exports){
-var World;
+var World,
+  bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
 World = (function() {
-  World.prototype.targetPosition = new THREE.Vector3(0, 0, 0);
+  World.prototype.speed = -0.01;
 
-  World.prototype.position = new THREE.Vector3(0, 0, 0);
+  World.prototype.accel = 0;
+
+  World.prototype.vx = 0;
+
+  World.prototype.vz = 0;
+
+  World.prototype.angleDest = 0;
+
+  World.prototype.angle = 0;
+
+  World.prototype.FRICTION = 0.9;
 
   function World(container) {
     this.container = container;
+    this.resize = bind(this.resize, this);
     this.buildScene();
     this.buildRoad();
+    $(window).on('resize', this.resize);
+    this.resize();
     this.render();
   }
 
@@ -423,30 +437,42 @@ World = (function() {
     this.camera.position.y = 1;
     this.camera.position.z = 5;
     this.renderer = new THREE.WebGLRenderer();
-    this.renderer.setSize($(window).width(), $(window).height());
     return this.container.append(this.renderer.domElement);
   };
 
   World.prototype.buildRoad = function() {
     var geom, material;
-    geom = new THREE.BoxGeometry(1, 1, 1);
+    geom = new THREE.PlaneGeometry(500, 500, 250, 250);
     material = new THREE.MeshBasicMaterial({
-      color: 0xffff00
+      color: 0xffffff,
+      side: THREE.DoubleSide,
+      wireframe: true
     });
-    this.cube = new THREE.Mesh(geom, material);
-    return this.scene.add(this.cube);
+    this.floor = new THREE.Mesh(geom, material);
+    this.floor.rotation.x = Math.PI / 2;
+    return this.scene.add(this.floor);
   };
 
-  World.prototype.updateCar = function(rotation) {
-    return this.targetPosition.x = rotation * -0.1;
+  World.prototype.updateCar = function(data) {
+    this.angleDest = data.rotation * 0.1;
+    return this.accel = data.accel * 0.001;
   };
 
   World.prototype.render = function() {
     window.requestAnimationFrame(this.render.bind(this));
-    this.cube.rotation.y += 0.01;
-    this.position.x += (this.targetPosition.x - this.position.x) * 0.5;
-    this.camera.lookAt(this.position);
+    this.angle += (this.angleDest - this.angle) * 0.01;
+    this.speed += this.accel;
+    this.speed *= this.FRICTION;
+    this.vx = Math.sin(this.angle) * this.speed;
+    this.vz = Math.cos(this.angle) * this.speed;
+    this.camera.position.x += this.vx;
+    this.camera.position.z += this.vz;
+    this.camera.rotation.y = this.angle;
     return this.renderer.render(this.scene, this.camera);
+  };
+
+  World.prototype.resize = function() {
+    return this.renderer.setSize($(window).width(), $(window).height());
   };
 
   return World;

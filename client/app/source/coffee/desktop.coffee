@@ -43,7 +43,7 @@ class Desktop
 			$(window).trigger "print-code", [ @currentRoom ]
 
 		@client.subscribe @client.messages.INTERACTION, (messageType, data) =>
-			$(window).trigger "update-move", [data]
+			$(window).trigger "update-move", data
 
 		@client.connect()
 

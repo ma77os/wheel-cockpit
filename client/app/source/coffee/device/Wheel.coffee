@@ -1,4 +1,5 @@
 class Wheel
+	accel:0
 	rotation: 0
 	rotationDest: 0
 	deviceFactor: 1
@@ -21,6 +22,8 @@ class Wheel
 	onDeviceMotion:(event)=>
 		if event.rotationRate != null
 			@rotationDest = (event.beta + @deviceFactorOffset) * @deviceFactor
+			@accel = event.gamma - 90
+			# $('body').html @accel
 
 	update:->
 		# @rotation += (@rotationDest - @rotation ) * .9
@@ -31,7 +34,7 @@ class Wheel
 
 		@imgCockpit.css 'transform', @transformStr
 
-		$(window).trigger 'interact', [ @rotation ]
+		$(window).trigger 'interact', {'rotation':@rotation, 'accel': @accel }
 
 		window.requestAnimationFrame @update.bind @
 

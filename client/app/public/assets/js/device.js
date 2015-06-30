@@ -400,6 +400,8 @@ var Wheel,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
 Wheel = (function() {
+  Wheel.prototype.accel = 0;
+
   Wheel.prototype.rotation = 0;
 
   Wheel.prototype.rotationDest = 0;
@@ -425,7 +427,8 @@ Wheel = (function() {
 
   Wheel.prototype.onDeviceMotion = function(event) {
     if (event.rotationRate !== null) {
-      return this.rotationDest = (event.beta + this.deviceFactorOffset) * this.deviceFactor;
+      this.rotationDest = (event.beta + this.deviceFactorOffset) * this.deviceFactor;
+      return this.accel = event.gamma - 90;
     }
   };
 
@@ -434,7 +437,10 @@ Wheel = (function() {
     this.transformStr = "translate3d(-50%, 0, 0)";
     this.transformStr += "rotateZ(" + this.rotation + "deg)";
     this.imgCockpit.css('transform', this.transformStr);
-    $(window).trigger('interact', [this.rotation]);
+    $(window).trigger('interact', {
+      'rotation': this.rotation,
+      'accel': this.accel
+    });
     return window.requestAnimationFrame(this.update.bind(this));
   };
 

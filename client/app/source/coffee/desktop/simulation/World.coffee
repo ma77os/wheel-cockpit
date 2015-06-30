@@ -1,12 +1,20 @@
 class World
 
-	targetPosition: new THREE.Vector3( 0, 0, 0 );
-	position: new THREE.Vector3( 0, 0, 0 );
+	speed: -0.01
+	accel:0
+	vx:0
+	vz:0
+	angleDest:0
+	angle:0
+	FRICTION:0.9
+
 	constructor: (@container) ->
 		
 		@buildScene()
 		@buildRoad()
 
+		$(window).on 'resize', @resize
+		@resize()
 		@render()
 
 	buildScene:->
@@ -16,29 +24,43 @@ class World
 		@camera.position.z = 5
 
 		@renderer = new THREE.WebGLRenderer()
-		@renderer.setSize $(window).width(), $(window).height()
 
 		@container.append @renderer.domElement
 
 	buildRoad:->
-		geom = new THREE.BoxGeometry 1, 1, 1
-		material = new THREE.MeshBasicMaterial color:0xffff00
-		@cube = new THREE.Mesh geom, material
-		@scene.add @cube
+		geom = new THREE.PlaneGeometry 500, 500, 250, 250
+		material = new THREE.MeshBasicMaterial color:0xffffff, side: THREE.DoubleSide, wireframe:true
+		@floor = new THREE.Mesh geom, material
+		@floor.rotation.x = Math.PI/2
+		@scene.add @floor
 
-	updateCar:(rotation)->
+	updateCar:(data)->
 		# console.log rotation
-		@targetPosition.x = rotation * -0.1
+		@angleDest = data.rotation * 0.1
+		@accel = data.accel * 0.001
+
 
 	render:->
 		window.requestAnimationFrame @render.bind @
 
-		@cube.rotation.y+=0.01
+		@angle += (@angleDest - @angle) * 0.01
 
-		@position.x += (@targetPosition.x - @position.x) * 0.5
+		@speed += @accel
+		@speed *= @FRICTION
 
-		@camera.lookAt @position
+		@vx = Math.sin(@angle) * @speed
+		@vz = Math.cos(@angle) * @speed
+
+		@camera.position.x += @vx
+		@camera.position.z += @vz
+		@camera.rotation.y = @angle
+		
 
 		@renderer.render @scene, @camera
+
+
+	resize:=>
+		@renderer.setSize $(window).width(), $(window).height()
+
 
 module.exports = World
